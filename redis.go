@@ -111,7 +111,7 @@ func NewRedisAdapter(route *router.Route) (router.LogAdapter, error) {
 	if debug {
 		log.Printf("Using Redis server '%s', dbnum: %d, password?: %t, pushkey: '%s', v0 layout?: %t, logstash type: '%s'\n",
 			address, database, password != "", key, use_v0, logstash_type)
-        log.Printf("Dedotting docker labels: %t", dedot_labels)
+		log.Printf("Dedotting docker labels: %t", dedot_labels)
 		log.Printf("Timeouts set, connect: %dms, read: %dms, write: %dms\n", connect_timeout, read_timeout, write_timeout)
 	}
 	if connect_timeout+read_timeout+write_timeout > 950 {
@@ -363,13 +363,14 @@ func createLogstashMessage(m *router.Message, docker_host string, use_v0 bool, l
 			// Regular logging (no json)
 			msg.Message = m.Data
 		}
+		fmt.Println(json.Marshal(msg))
 		return json.Marshal(msg)
 	}
 
 }
 
 func validJsonMessage(s string) bool {
-
+	fmt.Println(s)
 	if !strings.HasPrefix(s, "{") || !strings.HasSuffix(s, "}") {
 		return false
 	}
