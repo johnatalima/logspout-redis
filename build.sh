@@ -1,7 +1,7 @@
 #!/bin/sh
 
-GOLANG_BUILDER_IMAGE=golang:1.8
-DEFAULT_LOGSPOUT_VERSION=v3.2.4
+GOLANG_BUILDER_IMAGE=golang:1.16-rc
+DEFAULT_LOGSPOUT_VERSION=v3.2.13
 BASE_IMAGE=scratch
 IMAGE=rtoma/logspout-redis-logstash
 
@@ -134,12 +134,11 @@ package main
 import (
   _ "github.com/gliderlabs/logspout/httpstream"
   _ "github.com/gliderlabs/logspout/routesapi"
-  _ "github.com/rtoma/logspout-redis-logstash"
+  _ "/go/src/rtoma/logspout-redis-logstash"
 )
 EOM
 
-cd src/\$repo2
-go test -v
+cd src/\$repo1
 
 CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /target/linux.bin -ldflags "-X main.Version=v${app_version}-${logspout_version}" github.com/gliderlabs/logspout
 EOF
