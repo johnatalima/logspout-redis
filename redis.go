@@ -327,7 +327,7 @@ func createLogstashMessage(m *router.Message, docker_host string, use_v0 bool, l
 		} else {
 			msg.Fields.Docker.Labels = m.Container.Config.Labels
 		}
-
+		log.Println("here ")
 		return json.Marshal(msg)
 	} else {
 		msg := LogstashMessageV1{}
@@ -363,6 +363,8 @@ func createLogstashMessage(m *router.Message, docker_host string, use_v0 bool, l
 			// Regular logging (no json)
 			msg.Message = m.Data
 		}
+		log.Println("here 2")
+
 		fmt.Println(json.Marshal(msg))
 		return json.Marshal(msg)
 	}
@@ -379,6 +381,7 @@ func validJsonMessage(s string) bool {
 
 func (d *LogstashMessageV1) UnmarshalDynamicJSON(data []byte) error {
 	var dynMap map[string]interface{}
+	log.Println("here 3")
 
 	if d == nil {
 		return errors.New("RawString: UnmarshalJSON on nil pointer")
@@ -409,6 +412,7 @@ func (d *LogstashMessageV1) UnmarshalDynamicJSON(data []byte) error {
 	} else {
 		d.LogtypeEventfields = make(map[string]interface{}, 0)
 	}
+	log.Println("here 4")
 
 	// Fill the right hash based on logtype
 	for key, val := range dynMap {
